@@ -21,6 +21,14 @@ app.post('/CertDetails', (req, res) => {
   });
 });
 
+app.get('/CertDetails',(req, res) => {
+  CertDetails.find().then((docs) =>{
+    res.send({docs});
+  },(e) => {
+    res.status(400).send(e);
+  })
+});
+
 app.listen(3000, () => {
   console.log('Started on port 3000.');
 });
