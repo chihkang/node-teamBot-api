@@ -4,8 +4,18 @@ const request = require('supertest');
 const { app } = require('./../server');
 const { CertDetails } = require('./../models/CertDetails');
 
+const certDetailsData = [{
+  HintCode:"CA9999",
+  Description:"Update Cert Error"
+},{
+  HintCode:"CA1999",
+  Description:"Apply Cert Error"
+}]
+
 beforeEach((done) => {
-  CertDetails.remove({}).then(() => done());
+  CertDetails.remove({}).then(() =>{
+    return CertDetails.insertMany(certDetailsData);
+  }).then(() => done());
 });
 
 describe('POST /CertDetails' ,() => {
@@ -26,7 +36,7 @@ describe('POST /CertDetails' ,() => {
           return done(err);
         }
 
-        CertDetails.find().then((docs) => {
+        CertDetails.find({HintCode}).then((docs) => {
           expect(docs.length).toBe(1);
           expect(docs[0].HintCode).toBe(HintCode);
           expect(docs[0].Description).toBe(Description);
@@ -46,10 +56,23 @@ describe('POST /CertDetails' ,() => {
         }
 
         CertDetails.find().then((docs) =>{
-          expect(docs.length).toBe(0);
+          expect(docs.length).toBe(2);
           done();
         }).catch((e) => done(e));
       });
   });
 
+});
+
+describe('GET /CertDetails', () => {
+  it('should get all CertDetails', (done) =>{
+      request(app)
+        .get('/CertDetails')
+        .expect(200)
+        .expect((res) => {
+          // doc from server.js GET/CertDetails
+          expect(res.body.docs.length).toBe(2);
+        })
+        .end(done);
+  });
 });
