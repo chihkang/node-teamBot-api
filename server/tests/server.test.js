@@ -76,3 +76,25 @@ describe('GET /CertDetails', () => {
         .end(done);
   });
 });
+
+describe('GET /CertDetails/:hintcode', () =>{
+  it('should return CertDetails doc',(done) =>{
+    request(app)
+      .get(`/CertDetails/${certDetailsData[0].HintCode}`)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.doc.HintCode).toBe(certDetailsData[0].HintCode);
+      })
+      .end(done);
+  });
+
+  it('should return 404 if CertDetails not found', (done) => {
+    // make sure you get a 404 back
+    var wrongHintCode = 'CA3344';
+    request(app)
+      .get(`/CertDetails/${wrongHintCode}`)
+      .expect(404)
+      .end(done);
+  });
+
+});
