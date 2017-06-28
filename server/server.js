@@ -29,6 +29,22 @@ app.get('/CertDetails',(req, res) => {
   })
 });
 
+// GET /CertDetails/1324235
+
+app.get('/CertDetails/:hintcode',(req, res) => {
+  var hintcode = req.params.hintcode;
+
+  CertDetails.findOne({HintCode:hintcode}).then((doc) =>{
+    if(!doc){
+      return res.status(404).send();
+    }
+    res.send({doc});
+  }).catch((e) =>{
+    res.status(400).send();
+  })
+  // res.send(req.params);
+});
+
 app.listen(3000, () => {
   console.log('Started on port 3000.');
 });
