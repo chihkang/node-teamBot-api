@@ -2,9 +2,9 @@ const expect = require('expect');
 const request = require('supertest');
 
 const { app } = require('./../server');
-const { CertDetails } = require('./../models/CertDetails');
+const { QuestionHelper } = require('./../models/QuestionHelper');
 
-const certDetailsData = [{
+const QuestionHelperData = [{
   HintCode:"CA9999",
   Description:"Update Cert Error"
 },{
@@ -13,18 +13,18 @@ const certDetailsData = [{
 }]
 
 beforeEach((done) => {
-  CertDetails.remove({}).then(() =>{
-    return CertDetails.insertMany(certDetailsData);
+  QuestionHelper.remove({}).then(() =>{
+    return QuestionHelper.insertMany(QuestionHelperData);
   }).then(() => done());
 });
 
-describe('POST /CertDetails' ,() => {
-  it('should create a new CertDetails', (done) => {
+describe('POST /QuestionHelper' ,() => {
+  it('should create a new QuestionHelper', (done) => {
     var HintCode = 'test-HintCode';
     var Description = 'test-Description';
 
     request(app)
-      .post('/CertDetails')
+      .post('/QuestionHelper')
       .send({HintCode,Description})
       .expect(200)
       .expect((res) => {
@@ -36,7 +36,7 @@ describe('POST /CertDetails' ,() => {
           return done(err);
         }
 
-        CertDetails.find({HintCode}).then((docs) => {
+        QuestionHelper.find({HintCode}).then((docs) => {
           expect(docs.length).toBe(1);
           expect(docs[0].HintCode).toBe(HintCode);
           expect(docs[0].Description).toBe(Description);
@@ -45,9 +45,9 @@ describe('POST /CertDetails' ,() => {
       });
   });
 
-  it('should not create CertDetails with invalid body data', (done) => {
+  it('should not create QuestionHelper with invalid body data', (done) => {
     request(app)
-      .post('/CertDetails')
+      .post('/QuestionHelper')
       .send({})
       .expect(400)
       .end((err, res) => {
@@ -55,7 +55,7 @@ describe('POST /CertDetails' ,() => {
           return done(err);
         }
 
-        CertDetails.find().then((docs) =>{
+        QuestionHelper.find().then((docs) =>{
           expect(docs.length).toBe(2);
           done();
         }).catch((e) => done(e));
@@ -64,35 +64,35 @@ describe('POST /CertDetails' ,() => {
 
 });
 
-describe('GET /CertDetails', () => {
-  it('should get all CertDetails', (done) =>{
+describe('GET /QuestionHelper', () => {
+  it('should get all QuestionHelper', (done) =>{
       request(app)
-        .get('/CertDetails')
+        .get('/QuestionHelper')
         .expect(200)
         .expect((res) => {
-          // doc from server.js GET/CertDetails
+          // doc from server.js GET/QuestionHelper
           expect(res.body.docs.length).toBe(2);
         })
         .end(done);
   });
 });
 
-describe('GET /CertDetails/:hintcode', () =>{
-  it('should return CertDetails doc',(done) =>{
+describe('GET /QuestionHelper/:hintcode', () =>{
+  it('should return QuestionHelper doc',(done) =>{
     request(app)
-      .get(`/CertDetails/${certDetailsData[0].HintCode}`)
+      .get(`/QuestionHelper/${QuestionHelperData[0].HintCode}`)
       .expect(200)
       .expect((res) => {
-        expect(res.body.doc.HintCode).toBe(certDetailsData[0].HintCode);
+        expect(res.body.doc.HintCode).toBe(QuestionHelperData[0].HintCode);
       })
       .end(done);
   });
 
-  it('should return 404 if CertDetails not found', (done) => {
+  it('should return 404 if QuestionHelper not found', (done) => {
     // make sure you get a 404 back
     var wrongHintCode = 'CA3344';
     request(app)
-      .get(`/CertDetails/${wrongHintCode}`)
+      .get(`/QuestionHelper/${wrongHintCode}`)
       .expect(404)
       .end(done);
   });

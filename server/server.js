@@ -1,5 +1,5 @@
 var { mongoose } = require('./db/mongoose')
-var { CertDetails } = require('./models/CertDetails');
+var { QuestionHelper } = require('./models/QuestionHelper');
 
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -10,8 +10,8 @@ const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 
-app.post('/CertDetails', (req, res) => {
-  var certThings = new CertDetails({
+app.post('/QuestionHelper', (req, res) => {
+  var certThings = new QuestionHelper({
     "HintCode": req.body.HintCode,
     "Description": req.body.Description
   });
@@ -23,20 +23,20 @@ app.post('/CertDetails', (req, res) => {
   });
 });
 
-app.get('/CertDetails',(req, res) => {
-  CertDetails.find().then((docs) =>{
+app.get('/QuestionHelper',(req, res) => {
+  QuestionHelper.find().then((docs) =>{
     res.send({docs});
   },(e) => {
     res.status(400).send(e);
   })
 });
 
-// GET /CertDetails/1324235
+// GET /QuestionHelper/1324235
 
-app.get('/CertDetails/:hintcode',(req, res) => {
+app.get('/QuestionHelper/:hintcode',(req, res) => {
   var hintcode = req.params.hintcode;
 
-  CertDetails.findOne({HintCode:hintcode}).then((doc) =>{
+  QuestionHelper.findOne({HintCode:hintcode}).then((doc) =>{
     if(!doc){
       return res.status(404).send();
     }
