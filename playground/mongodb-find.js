@@ -10,22 +10,22 @@ MongoClient.connect('mongodb://localhost:27017/teamWorkApp', (err, db) => {
   }
   console.log('Connected to MongoDB server');
 
-  // db.collection('CertDetails').find().toArray().then((docs) => {
+  // db.collection('QuestionHelper').find().toArray().then((docs) => {
   //
-  //   console.log('CertDetails');
+  //   console.log('QuestionHelper');
   //
   //   console.log(JSON.stringify(docs, undefined, 2));
   //
   // },(err) => {
-  //   console.log('Unable to fetch CertDetails', err);
+  //   console.log('Unable to fetch QuestionHelper', err);
   // });
 
-  db.collection('CertDetails').find().count().then((count) => {
+  db.collection('QuestionHelper').find().count().then((count) => {
 
-    console.log(`CertDetails count: ${count}`);
+    console.log(`QuestionHelper count: ${count}`);
 
   },(err) => {
-    console.log('Unable to fetch CertDetails', err);
+    console.log('Unable to fetch QuestionHelper', err);
   });
 
   // db.close();

@@ -1,5 +1,5 @@
 const {mongoose} = require('./../server/db/mongoose');
-const {CertDetails} = require('./../server/models/CertDetails');
+const {QuestionHelper} = require('./../server/models/QuestionHelper');
 const {ObjectID} = require('mongodb');
 //595278a4093a31b3d4109408
 var id = '595278a4093a31b3d4109408';
@@ -8,19 +8,19 @@ if(!ObjectID.isValid(id)){
   console.log('ID not valid');
 }
 
-// CertDetails.find({
+// QuestionHelper.find({
 //   _id: id
 // }).then((docs) => {
-//   console.log('certDetailsDatas', docs);
+//   console.log('QuestionHelperDatas', docs);
 // });
 //
-// CertDetails.findOne({
+// QuestionHelper.findOne({
 //   _id: id
 // }).then((doc) => {
-//   console.log('certDetailsData', doc);
+//   console.log('QuestionHelperData', doc);
 // });
 
-CertDetails.findById(id).then((doc) => {
+QuestionHelper.findById(id).then((doc) => {
   if(!doc){
     return console.log('Id not found');
   }

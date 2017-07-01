@@ -10,12 +10,12 @@ MongoClient.connect('mongodb://localhost:27017/teamWorkApp', (err, db) => {
   }
   console.log('Connected to MongoDB server');
 
-  // db.collection('CertDetails').insertOne({
+  // db.collection('QuestionHelper').insertOne({
   //   Description: 'Cert something details',
   //   HintCode: 'CA9999'
   // }, (err, result) =>{
   //   if(err){
-  //     return console.log('Unable to insert CertDetails', err);
+  //     return console.log('Unable to insert QuestionHelper', err);
   //   }
   //
   //   console.log(JSON.stringify(result.ops, undefined, 2));

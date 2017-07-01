@@ -10,7 +10,7 @@ MongoClient.connect('mongodb://localhost:27017/teamWorkApp', (err, db) => {
   }
   console.log('Connected to MongoDB server');
 
-  db.collection('CertDetails').findOneAndUpdate({
+  db.collection('QuestionHelper').findOneAndUpdate({
     _id: new ObjectID('595111c8d32254aba8f64aea')
   }, {
     $set: {
