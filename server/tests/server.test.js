@@ -98,3 +98,36 @@ describe('GET /QuestionHelper/:hintcode', () =>{
   });
 
 });
+
+describe('DELETE /QuestionHelper/:hintcode',() =>{
+  it('should remove a QuestionHelper',(done) =>{
+    var hintcode = QuestionHelperData[0].HintCode;
+    var description = QuestionHelperData[0].Description;
+    request(app)
+      .delete(`/QuestionHelper/${hintcode}`)
+      .expect(200)
+      .expect((res) =>{
+        expect(res.body.doc.Description).toBe(description);
+      })
+      .end((err, res) =>{
+        if(err){
+          return done(err);
+        }
+        // query database using findOne toNotExist
+        // expect(null).toNotExist
+        QuestionHelper.findOne({HintCode:hintcode}).then((doc)=>{
+          expect(doc).toNotExist();
+          done();
+        }).catch((e) => done(e));
+      })
+  });
+
+  it('should return 404 if QuestionHelper not found',(done) =>{
+    var wrongHintCode = 'CA3344';
+    request(app)
+      .delete(`/QuestionHelper/${wrongHintCode}`)
+      .expect(404)
+      .end(done);
+  });
+
+});
