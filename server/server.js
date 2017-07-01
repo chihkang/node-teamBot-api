@@ -3,8 +3,9 @@ var { QuestionHelper } = require('./models/QuestionHelper');
 
 const express = require('express');
 const bodyParser = require('body-parser');
+const _ = require('lodash');
 
-var app = express();
+const app = express();
 const port = process.env.PORT || 3000;
 
 
@@ -57,6 +58,27 @@ app.delete('/QuestionHelper/:hintcode',(req, res) =>{
   }).catch((e)=>{
     res.status(400).send();
   });
+});
+
+app.patch('/QuestionHelper/:hintcode',(req, res) => {
+  var hintcode = req.params.hintcode;
+  var body = _.pick(req.body,['HintCode','Description']);
+  // console.log(req);
+  QuestionHelper.findOneAndUpdate({
+    HintCode:hintcode
+  },{
+    $set: body
+  },{
+    new:true
+  }).then((doc) =>{
+    if(!doc){
+      return res.status(404).send();
+    }
+    // console.log(doc);
+    res.send({doc});
+  }).catch((e) =>{
+    res.status(400).send();
+  })
 });
 
 app.listen(port, () => {
