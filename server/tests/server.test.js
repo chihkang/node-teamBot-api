@@ -3,6 +3,7 @@ const request = require('supertest');
 
 const { app } = require('./../server');
 const { QuestionHelper } = require('./../models/QuestionHelper');
+const _ = require('lodash');
 
 const QuestionHelperData = [{
   HintCode:"CA9999",
@@ -20,7 +21,7 @@ beforeEach((done) => {
 
 describe('POST /QuestionHelper' ,() => {
   it('should create a new QuestionHelper', (done) => {
-    var HintCode = 'test-HintCode';
+    var HintCode = _.toUpper('test-HintCode');
     var Description = 'test-Description';
 
     request(app)
@@ -28,7 +29,7 @@ describe('POST /QuestionHelper' ,() => {
       .send({HintCode,Description})
       .expect(200)
       .expect((res) => {
-        expect(res.body.HintCode).toBe(HintCode);
+        expect(res.body.HintCode).toBe(_.toUpper(HintCode));
         expect(res.body.Description).toBe(Description);
       })
       .end((err, res) => {
@@ -38,7 +39,7 @@ describe('POST /QuestionHelper' ,() => {
 
         QuestionHelper.find({HintCode}).then((docs) => {
           expect(docs.length).toBe(1);
-          expect(docs[0].HintCode).toBe(HintCode);
+          expect(docs[0].HintCode).toBe(_.toUpper(HintCode));
           expect(docs[0].Description).toBe(Description);
           done();
         }).catch((e) => done(e));

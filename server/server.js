@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 
 app.post('/QuestionHelper', (req, res) => {
   var certThings = new QuestionHelper({
-    "HintCode": req.body.HintCode,
+    "HintCode": _.toUpper(req.body.HintCode),
     "Description": req.body.Description
   });
   // console.log(req.body);
@@ -37,7 +37,7 @@ app.get('/QuestionHelper',(req, res) => {
 app.get('/QuestionHelper/:hintcode',(req, res) => {
   var hintcode = req.params.hintcode;
 
-  QuestionHelper.findOne({HintCode:hintcode}).then((doc) =>{
+  QuestionHelper.findOne({HintCode:_.toUpper(hintcode)}).then((doc) =>{
     if(!doc){
       return res.status(404).send();
     }
@@ -50,7 +50,7 @@ app.get('/QuestionHelper/:hintcode',(req, res) => {
 
 app.delete('/QuestionHelper/:hintcode',(req, res) =>{
   var hintcode = req.params.hintcode;
-  QuestionHelper.findOneAndRemove({HintCode:hintcode}).then((doc) =>{
+  QuestionHelper.findOneAndRemove({HintCode:_.toUpper(hintcode)}).then((doc) =>{
     if(!doc){
       return res.status(404).send();
     }
@@ -61,7 +61,7 @@ app.delete('/QuestionHelper/:hintcode',(req, res) =>{
 });
 
 app.patch('/QuestionHelper/:hintcode',(req, res) => {
-  var hintcode = req.params.hintcode;
+  var hintcode = _.toUpper(req.params.hintcode);
   var body = _.pick(req.body,['HintCode','Description']);
   // console.log(req);
   QuestionHelper.findOneAndUpdate({
