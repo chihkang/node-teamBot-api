@@ -48,6 +48,22 @@ app.get('/QuestionHelper/:hintcode',(req, res) => {
   // res.send(req.params);
 });
 
+// GET /KeyWordsHelper/:keyword
+app.get('/KeyWordsHelper/:keyword',(req, res) => {
+  var keyword = req.params.keyword;
+
+  // select * from QuestionHelper where Description like '%keyword%''
+  QuestionHelper.find({ Description: new RegExp(keyword,'i')}).then((doc) =>{
+    if(!doc){
+      return res.status(404).send();
+    }
+    res.send({doc});
+  }).catch((e) =>{
+    res.status(400).send();
+  })
+  // res.send(req.params);
+});
+
 app.delete('/QuestionHelper/:hintcode',(req, res) =>{
   var hintcode = req.params.hintcode;
   QuestionHelper.findOneAndRemove({HintCode:_.toUpper(hintcode)}).then((doc) =>{
